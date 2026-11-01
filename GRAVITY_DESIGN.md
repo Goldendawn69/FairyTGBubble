@@ -1,4 +1,4 @@
-# BubbleFun — gravity physics and gameplay
+# FairyTGBubble — gravity physics and gameplay
 
 **Current review milestone: v0.8.5 — only genuinely new colour-group merges
 may trigger gravity-assisted matches.** No Gravity Lab or separate
@@ -204,4 +204,4 @@ are separate; passing automation is not proof of perfectly tuned game feel.
 - **PR #17 / v0.8.5: remove false re-contact triggers; require newly merged
   colour components before firing match-three.**
 - Future: tune mass, elastic deformation, contact constraints, per-bond
-  strength, earned in-game Extreme Gravity, Fizzlings and level progression.
+  strength, earned in-game Extreme Gravity, Fairy Survival and level progression.

@@ -1,4 +1,4 @@
-# BubbleFun — Effects and Tools
+# FairyTGBubble — Effects and Tools
 
 **Status:** Gameplay design specification — **not an implementation request**.  
 **Last discussed:** 29 October 2026.  
@@ -40,7 +40,7 @@ COMPLETE
 - **Trigger:** The Column Clear Bubble is destroyed / activated.
 - **Effect:** Destroys **all bubbles in its column**.
 - **Frozen bubbles in the column:** Destroyed immediately; they do not merely change colour.
-- **Important geometry detail:** BubbleFun uses staggered hex-grid rows. We must define a visually understandable *column* before implementation so a clear follows the column the player sees, not an unintuitive storage index.
+- **Important geometry detail:** FairyTGBubble uses staggered hex-grid rows. We must define a visually understandable *column* before implementation so a clear follows the column the player sees, not an unintuitive storage index.
 - **TBD:** Column width/alignment and chain-triggering rules for other affected specials.
 
 ### 2.4 Frozen Bubble

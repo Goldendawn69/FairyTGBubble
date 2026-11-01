@@ -4,10 +4,10 @@
 export async function loadVersion(fetchVersion = fetch) {
   const url = new URL('../version.json', import.meta.url);
   const response = await fetchVersion(url, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Unable to load BubbleFun version: ${response.status}`);
+  if (!response.ok) throw new Error(`Unable to load FairyTGBubble version: ${response.status}`);
   const data = await response.json();
   if (!data || typeof data.version !== 'string' || !/^\d+\.\d+\.\d+$/.test(data.version)) {
-    throw new Error('Invalid BubbleFun version.json');
+    throw new Error('Invalid FairyTGBubble version.json');
   }
   return data.version;
 }

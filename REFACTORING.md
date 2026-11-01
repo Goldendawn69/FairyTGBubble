@@ -1,4 +1,4 @@
-# BubbleFun — refactoring plan
+# FairyTGBubble — refactoring plan
 
   > **Status: All four structural phases merged.** New gravity features now live in a separate, staged plan: [GRAVITY_DESIGN.md](GRAVITY_DESIGN.md). G1 support analysis is on a review branch.
 

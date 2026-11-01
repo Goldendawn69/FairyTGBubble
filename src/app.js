@@ -11,7 +11,7 @@ if (versionBadge) {
   loadVersion()
     .then(version => { versionBadge.textContent = version; })
     .catch(error => {
-      console.warn('Could not read BubbleFun version.json', error);
+      console.warn('Could not read FairyTGBubble version.json', error);
       versionBadge.textContent = '—';
     });
 }
@@ -29,7 +29,7 @@ let audioContext = null;
 let lastTime = 0;
 let seenEvent = 0;
 let bestScore = readBest('arcade');
-const SCORE_LOG_KEY = 'bubblefun-debug-scoring';
+const SCORE_LOG_KEY = 'fairytgbubble-debug-scoring';
 function readScoreLogPreference() {
   try { return localStorage.getItem(SCORE_LOG_KEY) === 'on'; }
   catch { return false; }
@@ -39,7 +39,7 @@ let scoreLogEnabled = readScoreLogPreference();
 // Each callback corresponds to a real score award, not a rendering frame.
 // Per-bubble values are before the single final event-rounding step.
 function logScoreAward(event) {
-  console.groupCollapsed(`[BubbleFun score] ${event.kind.toUpperCase()} +${event.points} (${event.scoreBefore} → ${event.scoreAfter})`);
+  console.groupCollapsed(`[FairyTGBubble score] ${event.kind.toUpperCase()} +${event.points} (${event.scoreBefore} → ${event.scoreAfter})`);
   console.log('Award breakdown', {
     type: event.kind,
     bubbles: event.count,
@@ -62,12 +62,12 @@ function updateScoreLogButton() {
 }
 
 function readBest(gameMode) {
-  try { return Number(localStorage.getItem(`bubblefun-best-${gameMode}`)) || 0; }
+  try { return Number(localStorage.getItem(`fairytgbubble-best-${gameMode}`)) || 0; }
   catch { return 0; }
 }
 
 function saveBest(gameMode, value) {
-  try { localStorage.setItem(`bubblefun-best-${gameMode}`, String(value)); }
+  try { localStorage.setItem(`fairytgbubble-best-${gameMode}`, String(value)); }
   catch { /* Private browsing may not permit local storage. */ }
 }
 
@@ -264,7 +264,7 @@ $('score-debug-button').addEventListener('click', () => {
   catch { /* Logging still works this session when storage is unavailable. */ }
   state.onScoreAwarded = scoreLogEnabled ? logScoreAward : null;
   updateScoreLogButton();
-  if (scoreLogEnabled) console.info('[BubbleFun score] Logging enabled. Play a shot to see scoring events.');
+  if (scoreLogEnabled) console.info('[FairyTGBubble score] Logging enabled. Play a shot to see scoring events.');
 });
 $('play-again-button').addEventListener('click', reset);
 $('next-puzzle-button').addEventListener('click', () => selectPuzzle(puzzleIndex + 1));
