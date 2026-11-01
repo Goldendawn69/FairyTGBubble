@@ -36,7 +36,7 @@ test('browser loader rejects missing and malformed release manifests', async () 
 });
 
 test('version bump command advances patch and minor versions together', async () => {
-  const folder = await mkdtemp(join(tmpdir(), 'bubblefun-version-'));
+  const folder = await mkdtemp(join(tmpdir(), 'fairytgbubble-version-'));
   const [major, minor, patch] = current.split('.').map(Number);
   const patchVersion = [major, minor, patch + 1].join('.');
   const minorVersion = [major, minor + 1, 0].join('.');

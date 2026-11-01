@@ -1,9 +1,9 @@
 {
-  "name": "bubblefun",
+  "name": "fairytgbubble",
   "version": "0.10.0",
   "private": true,
   "type": "module",
-  "description": "A free, dependency-free bubble arcade for the browser",
+  "description": "FairyTGBubble: an enchanted bubble-shooter prototype for the browser",
   "scripts": {
     "test": "node --test",
     "version:patch": "node scripts/bump-version.mjs patch",

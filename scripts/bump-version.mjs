@@ -30,5 +30,5 @@ if (!['patch', 'minor', 'major'].includes(part)) {
     writeFile(manifestUrl, JSON.stringify(manifest, null, 2) + '\n'),
     writeFile(packageUrl, JSON.stringify(pkg, null, 2) + '\n'),
   ]);
-  console.log('BubbleFun version: ' + current + ' → ' + next);
+  console.log('FairyTGBubble version: ' + current + ' → ' + next);
 }
