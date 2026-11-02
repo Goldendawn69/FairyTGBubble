@@ -171,15 +171,17 @@ There are **three models worth assessing**:
 | **B. Individual body-part progression** | Each body part advances independently according to bubble category. Mental acceptance remains separate. | Flexible, but may produce awkward combinations and demands many visual combinations. |
 | **C. Hybrid progression** | One primary physical track keeps the overall transformation coherent; optional cosmetic/feature traits can be added later if they genuinely improve gameplay or art. Mental acceptance is separate; clothing/presentation follows the route or has a small distinct state. | Preserves extensibility without committing to many independent body-part meters. |
 
-**Current recommendation, not a locked decision:** Test **C, the lightweight hybrid**, with whole-body physical progression first. The user is **undecided**, and this decision should not be made silently by a coding agent.
+**Updated preferred direction:** Keep the three options above as design history, but proceed conceptually with a coherent **whole-body** track plus separately progressing **face, hair, clothing/appearance and mind**. Stage thresholds, bubble categories and artwork compatibility are still open. No renderer is being implemented yet.
 
 A unified physical track does **not** mean every aspect changes simultaneously. Different milestones can show early hair/face changes, then body proportions and voice, and eventually a more complete transformation. Those are **authored changes within an overall progression**, rather than isolated body parts independently reaching 100%.
 
 ### Physical, mental, clothing and route are different concepts
 
-- **Physical:** How far the protagonist's overall bodily transformation has progressed. A possible single primary meter; exact range and milestone thresholds are **open**.
+- **Body:** One coherent full-body transformation progression, not separate limbs or individual anatomical areas. Milestones are **open**.
+- **Face:** Facial changes can progress independently, but must fit the current body model.
+- **Hair:** Hair length, style and colour can progress independently.
 - **Mental acceptance:** Its own slower progression, represented by the working 0–6 stages. Stage 6 is definitive game over; it must not become a mere visual substage of physical progress.
-- **Clothing/presentation:** Clothes, hairstyle presentation, makeup, accessories or similar style cues may evolve as the character changes. Clothing might be **derived from physical/mental milestones and the route**, or later use a separate track. **Not decided.**
+- **Clothing/presentation:** Clothing, makeup and accessories can progress at their own rate, using images compatible with the current body model.
 - **Style route:** The chosen kind of woman (for example bubbly, nerdy, goth, or many other possibilities). **The first bubble that actually transforms the protagonist locks the run's route.** Later physical, mental and clothing changes take on that route's appearance and flavour.
 
 Importantly, the **style lock is a separate axis from physical progression**. A route answers *what kind of woman is the character becoming?*; progression answers *how far has the transformation gone?*
@@ -199,9 +201,11 @@ The game should capture enough **structured state** for portraits or paper-doll 
 A *proposed* minimal shape (illustrative, **not an approved data schema**) would record:
 
 - `styleRoute`: unset until the first genuine transformation event locks it; then fixed for that run.
-- `physicalProgress`: an overall physical transformation value or stage.
+- `physicalProgress`: an overall body transformation value or stage.
+- `faceProgress`: a separate face transformation value/stage.
+- `hairProgress`: a separate hair transformation value/stage.
+- `appearanceProgress`: clothing, makeup and accessory progression.
 - `mentalAcceptance`: a separate acceptance value/stage, reaching game over at 6.
-- `presentation`: an optional clothing/appearance milestone, possibly **derived** instead of stored.
 - `transformationEvents`: optional event information (cause, colour/type, amount, time/sequence, resulting state) useful for replay, debugging, analytics and future presentation.
 
 Avoid double sources of truth: if clothing stages can be calculated reliably from progress and route, do not duplicate them in persistent game state unnecessarily. If extra physical traits become meaningful, add them through an **extensible schema**, not a premature fixed list of every body part.
@@ -376,17 +380,39 @@ The style lock should shape **both pictures and narrative/mental transformation*
 
 The finished game is intended to include **illustrated character pictures** so the player can see the protagonist gradually change within their locked route. We expect route-specific character appearances and a progression of visual stages, potentially including poses, facial expressions, hair, clothing and presentation changes.
 
-The choice of *how* to generate and compose these pictures is **deliberately postponed**. Three credible approaches to revisit later:
+**Stage-aware paper dolls are now the preferred future direction**, but final art technology and implementation are still postponed. Keep these three approaches for comparison:
 
 1. **Pre-drawn images:** Finished illustrations for each route and transformation milestone.
-2. **Paper-doll/layered art:** Assemble a character from reusable layers (body, face, hair, clothing, expressions, accessories), selected using character state.
+2. **Stage-aware paper-doll/layered art — preferred:** Each style route has multiple compatible body-stage bases, with independent face, hair, clothing, makeup and expression layers selected using character state.
 3. **Hybrid art:** Pre-drawn base/stage illustrations with a smaller set of interchangeable layers or overlays.
+
+### Stage-aware paper-doll direction (future work)
+
+The **first bubble that genuinely transforms the character** still locks the style route. Each route has its **own model**, with several **body-stage base illustrations** showing a gradual, coherent whole-body male-to-female change. There is no single universal paper doll that must fit every body shape or every feminine route.
+
+Within that route, **body, face, hair, clothing/appearance and mind can progress at different speeds**:
+
+| Track | Model/visual consequence |
+| --- | --- |
+| **Body** | Selects a compatible full-body base for that point in the transformation |
+| **Face** | Selects a face variant aligned to the current body base |
+| **Hair** | Selects a hairstyle/length/colour variant, fitted to the body/face base |
+| **Clothing/appearance** | Selects clothes, makeup and accessories suited to the body base and locked route |
+| **Mind** | Controls slower acceptance, dialogue, possible expression changes and game interference; **stage 6 is game over** |
+
+For example, a character might have an early body stage while hair and face are further along and clothing is barely changed. The game should **allow that difference without producing broken or mismatched art**. We do *not* want to track independently transformed legs, chest and hips.
+
+**Data before images:** The game should record the locked style route and each broad transformation track separately. An eventual renderer reads these values and chooses the correct body base and compatible layers. Bubble physics and transformation progress must not depend on paper-doll image filenames. The existing \`transformationEvents\` concept remains useful for tracing progress.
+
+**Artwork caveat:** Multiple body bases reduce the mismatch problem but do not eliminate the effort of drawing/fitting outfits, face layers and hair across stages. Later, test **two body bases, two face states, two hair states and two clothing states for one route** before adopting a renderer. Investigate anchors, layer ordering and allowed combinations.
+
+**Still open:** Exact stage counts and progress thresholds, illustration/animation format, whether clothes and makeup need separate layer types, asset compatibility fallbacks, and how bubble colours map to these broader tracks. These choices should wait until after the first bubble-physics proof of concept.
 
 Trade-offs to investigate later include asset volume, consistency of proportions across stages, animation, transparent layers, memory/performance on desktop and mobile, how many routes are practical, and whether character art is created manually or with image-generation assistance.
 
 **Architectural commitment now:** Data must describe the character's **route and progression** without assuming any of these three rendering methods. **No art pipeline or paper-doll engine is needed for the first physics/gameplay prototype.**
 
-**Still open:** How many visual stages, whether clothing is an independent progression, whether specific body traits need to be tracked, and the relationship between stage milestones and a physical/mental transformation event.
+**Still open:** How many visual stages, how to handle layer compatibility, whether makeup and clothing need separate artwork layers, and the relationship between stage milestones and a physical/mental transformation event.
 
 ## 13. Risks to confront before implementation
 
@@ -453,7 +479,7 @@ These need discussion or playtesting; they should **not** be decided by an AI co
 2. **Bottom impact batching:** multiple bubbles touching simultaneously, overlapping blast paths and animation ordering.
 3. **Bomb/special interactions:** when directly destroying an attached board special triggers its own effect.
 4. **Transformation counting:** precise line-crossing convention, minimum units for visible steps, whether any cap exists.
-5. **Physical progression model:** overall full-body, independent body parts, or lightweight hybrid (currently leaning hybrid but **undecided**).
+5. **Broad transformation progression:** preferred body, face, hair, clothing/appearance and mind tracks; specific thresholds, bubble categories and layer fit are still undecided.
 6. **Bubble colours/types:** how colours contribute to physical versus rare mental progress if separate body-part meters are removed.
 7. **Physical completion:** whether it can coexist with successful survival; any non-mental failure conditions.
 8. **Magic reserve:** rows versus individual bubbles, last-row resolution and victory timing.
@@ -462,8 +488,8 @@ These need discussion or playtesting; they should **not** be decided by an AI co
 11. **Mental interference:** which events are best, how often they occur, warning/counterplay and player agency.
 12. **Good Fairy tools:** earning rates, cooldown/charge conditions and safe interactions with the line.
 13. **First-bubble style lock:** what metadata determines the route; mental-first and simultaneous-event tie-break behaviour.
-14. **Visual presentation:** pre-drawn, layered paper doll or hybrid; exact art stages; desktop/mobile performance.
-15. **Clothing and identity:** clothing derived from milestones versus separately tracked; whether later individual feature traits are needed.
+14. **Visual presentation:** stage-aware multiple-body-base paper doll currently preferred; confirm fit, stages, art workload and desktop/mobile performance before implementation.
+15. **Clothing and identity:** clothing/appearance progresses independently; decide compatible artwork, variants and whether makeup needs its own layers.
 16. **Narrative progression:** protagonist identity, how progression shapes dialogue, and eventual endings.
 17. **Specialised feminine routes:** which archetypes exist, route-specific acceptance, and how to scale beyond three examples.
 18. **Score relation:** Should depth-based points and high-risk clearing charge abilities, improve final score or alter the magical assault? Not decided.
